@@ -19,7 +19,13 @@ const StackNavigation = () => {
             headerTintColor: '#fff',
             headerStyle: { 
                 backgroundColor: '#0C54BE' 
-            }
+            },
+            headerRight: () => (
+              <View>
+                <Text style={{color:'#fff'}}>LOCATION</Text>
+                <Feather name="map-pin" size={16} color='white' onPress={() => Alert.alert("Location")}/>
+              </View>
+            )
         }}/>
         <Stack.Screen 
         name="detailscreen" 
@@ -31,10 +37,9 @@ const StackNavigation = () => {
             headerStyle: { 
                 backgroundColor: '#0C54BE' 
             },
-    
             headerLeft: () => (
               <View><Feather name="chevron-left" size={28} color='white' onPress={() => navigation.goBack()}/></View>
-            )
+            ),
           })}/>
     </Stack.Navigator>
   );
