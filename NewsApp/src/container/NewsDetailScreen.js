@@ -27,7 +27,7 @@ const NewsDetailScreen = ({navigation, route}) => {
         </ImageBackground>
     
       <ScrollView style={{flex:1, margin:'3%'}}>
-        <Text style={{margin:'1%', fontWeight:"600"}}>{name} - By {author}</Text>
+        <Text style={{margin:'1%', fontWeight:"600"}}>{name} - Author {author}</Text>
         <Text style={{margin:'1%',marginTop:.1 ,fontWeight:"600"}}>{publishedAt}</Text>
         <Text style={{...FONTS.body3, margin:'1%',marginTop:'2%', fontWeight:"600"}}>{content}</Text>
 

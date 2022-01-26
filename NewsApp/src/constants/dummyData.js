@@ -9,6 +9,7 @@ export const dummyData = [
     "description": "Midwest grocery chains Meijer and Hy-Vee said they have started giving away the masks. Walgreens expects its giveaways to start Friday.",
     "url": "https://www.washingtonpost.com/nation/2022/01/25/covid-omicron-variant-live-updates/",
     "urlToImage": "https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/WJZHZ7DVTEI6ZITNDQQ4C2Y4SM.jpg&w=1440",
+    // "urlToImage": null,
     "publishedAt": "2022-01-25T14:05:35Z",
     "content": "An Australian aid ship bound for Tonga following the recent volcanic eruption and tsunami has been hampered in its mission after 23 crew members tested positive for the coronavirus.\r\nThe HMAS Adelaid… [+1195 chars]"
     },
@@ -39,5 +40,19 @@ export const dummyData = [
     "urlToImage": "https://s.yimg.com/ny/api/res/1.2/HtwbfHrjy.62FobBahEzwQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD04MDA-/https://s.yimg.com/os/creatr-uploaded-images/2021-06/46e027b0-d9b7-11eb-bfef-a15b40bf6ff5",
     "publishedAt": "2022-01-25T14:00:03Z",
     "content": "Home price growth in the U.S. continued to slow in the penultimate month of 2021.\r\nStandard &amp; Poors said Tuesday that its S&amp;P CoreLogic Case-Shiller national home price index posted a 18.8% a… [+3705 chars]"
+    },
+
+    {
+        "source": {
+            "id": 'fox-business',
+            "name": "Fox Business"
+        },
+    "author": "Michael Ruiz",
+    "title": "Tim Cook 'stalker': Apple files for restraining order against Virginia woman accused of harassing CEO - Fox Business",
+    "description": "Apple has filed for a restraining order against a woman who allegedly stalked the tech giant’s CEO Tim Cook, showed up at his house at least twice and sent him photos of guns and bullets, according court filings in Santa Clara.",
+    "url": "https://www.foxbusiness.com/business-leaders/tim-cook-stalker-apple",
+    "urlToImage": "https://a57.foxnews.com/static.foxbusiness.com/foxbusiness.com/content/uploads/2022/01/0/0/cook-gun.jpg?ve=1&tl=1",
+    "publishedAt": "2022-01-26T03:48:07Z",
+    "content": "Apple has filed for a restraining order against a woman who allegedly stalked the tech giant’s CEO Tim Cook, showed up at his house at least twice and sent him threatening photos of guns and bullets,… [+3286 chars]"
     },
 ]

@@ -1,15 +1,30 @@
 import { View, Text, Image, Alert, TouchableNativeFeedback} from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FONTS } from '../constants/theme';
 import { windowWidth, windowHeight } from '../constants/utils';
 import { styles } from '../constants/styles';
 import { useNavigation } from '@react-navigation/native';
+import moment from 'moment';
 
 export default function ListFeed({id, title, description, urlToImage, publishedAt, name, author, url, content}) {
     const navigation = useNavigation();
+    const [timeNewsFeed, setTimeNewsFeed] = useState('');
+    const [timeDetailScreen, setTimeDetailScreen] = useState('');
+
+    useEffect(() => {
+        function timeFromNow(){
+            setTimeNewsFeed(moment(publishedAt || moment.now()).fromNow())
+        }
+        function timeFormat(){
+            setTimeDetailScreen(moment(publishedAt || moment.now()).format("DD MMM[,] YYYY [at] h:mm A"))
+        }
+        timeFromNow();
+        timeFormat();
+    },[])    
+
     return (
     <View style={{marginBottom: 20, borderRadius: 8}}>
-      <TouchableNativeFeedback onPress={()=> navigation.navigate('detailscreen', {title:title, name:name, url:url, author:author, content:content, urlToImage:urlToImage, publishedAt:publishedAt})}>
+      <TouchableNativeFeedback onPress={()=> navigation.navigate('detailscreen', {title:title, name:name, url:url, author:author, content:content, urlToImage:urlToImage, publishedAt:timeDetailScreen})}>
         <View style={styles.mainCardView}>  
           <View style={styles.subCardView}>
             <Text
@@ -40,7 +55,7 @@ export default function ListFeed({id, title, description, urlToImage, publishedA
                 // fontFamily: FONTS.h3.fontFamily,
                 // fontSize: 14,
               }}>
-              {publishedAt}
+              {timeNewsFeed}
             </Text> 
           </View>
           
