@@ -20,8 +20,8 @@ const NewsDetailScreen = ({navigation, route}) => {
   return (
     <SafeAreaView style={{flex:1}}>
       
-        <ImageBackground source={urlToImage} style={{width: '100%', height: 250}}>
-            <View style={{position: 'absolute', top: 0, left: '3%', right: '3%', bottom: '3%', justifyContent: 'flex-end', alignItems: 'center'}}>
+        <ImageBackground source={urlToImage} style={{width: '100%', height: 300}}>
+            <View style={{position: 'absolute', top: 0, left: '3%', right: '3%', bottom: '3%', justifyContent: 'flex-end', alignItems: 'flex-start'}}>
                 <Text style={{...FONTS.h3, color:'#fff'}}>{title}</Text>
             </View>
         </ImageBackground>
@@ -29,7 +29,7 @@ const NewsDetailScreen = ({navigation, route}) => {
       <ScrollView style={{flex:1, margin:'3%'}}>
         <Text style={{margin:'1%', fontWeight:"600"}}>{name} - Author {author}</Text>
         <Text style={{margin:'1%',marginTop:.1 ,fontWeight:"600"}}>{publishedAt}</Text>
-        <Text style={{...FONTS.body3, margin:'1%',marginTop:'2%', fontWeight:"600"}}>{content}</Text>
+        <Text style={{...FONTS.body2,textAlign:'justify', margin:'1%',marginTop:'2%', fontWeight:"600"}}>{content.split("[+")[0]}</Text>
 
         <TouchableOpacity style={{
             flexDirection: "row",

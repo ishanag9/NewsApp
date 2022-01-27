@@ -13,12 +13,26 @@ const NewsFeedScreen = () => {
   const [valueError, setValueError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
-  
+  const handleChange = (value) =>{
+    const searchRegex = RegExp(`\W*${value}\W*`);
+    setValue(value)
+    // console.log(value + ' Search value in news feed screen')
+    setFilteredData(data.filter(data=> data.title.toLowerCase().match(searchRegex) 
+                      ||  data.description?.toLowerCase().match(searchRegex)
+                      ||  data.source.name?.toLowerCase().match(searchRegex)))
+    // console.log(filteredData)
+}
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setIsLoading(true)
+  //   }, 250);
+  // },[])
 
   useEffect(()=>{ 
     async function getData() {
-      // setIsLoading(true);
       await getGenArticlesIN('in', 'general').then(data => {
         setData(data)
       },
@@ -30,21 +44,25 @@ const NewsFeedScreen = () => {
     getData()
   },[])
   
+
+  useEffect(() => {
+    if (data != null) {
+      setFilteredData(data);
+    }
+  }, [data]);
+
   return (
     <View style={{flex:1}}>
-      {console.log(data)}
+      {/* {console.log(data)} */}
       <View style={{marginLeft:'4%', marginRight:'4%'}}>
       <FormInput
         placeholder='Search for news, topics...'
-        // keyboardType="numeric"
+        // keyboardType="default"
         autoCapitalize="words"
-        // autoCompleteType="email"
         onChange={(value) => {
-            // utils.validateEmail(value, setEmailError)
-            setValue(value)
+            handleChange(value)
             console.log('typing')
         }}
-        // errorMsg={emailError}
         appendComponent={
             <View
             style={{
@@ -73,25 +91,27 @@ const NewsFeedScreen = () => {
         </View>
       <ScrollView style={styles.container}>
         {isLoading ? <ActivityIndicator size="small" color="blue"/> :
-          data.map(item => (
+          filteredData.map(item => (
             <ListFeed
-              key={item.source.publishedAt}
-              title={item.title}
-              description={item.description}
+              key={item?.url}
+              title={item?.title}
+              description={item?.description}
               urlToImage={{uri: item.urlToImage != null ? item.urlToImage : 'https://image.shutterstock.com/image-vector/404-not-found-problem-disconnect-600w-721322569.jpg'}}
-              publishedAt={item.publishedAt}
+              publishedAt={item?.publishedAt}
               //Use this at news detail screen
-              name={item.source.name}
-              author={item.author}
-              url={item.url}
-              content={item.content}
+              name={item?.source.name}
+              author={item?.author}
+              url={item?.url}
+              content={item?.content}
             />
           ))
         }
+        {
+          value && filteredData.length===0 ? 
+            <Image style={{width:'100%', height:500}} source={require('../assets/NoResultFound.png')} resizeMode='contain' />
+          : console.log(false)
+        }
 
-        {/* <View style={{margin:'20%'}}>  
-          <Button title="Detail Screen" onPress={() => navigation.navigate('detailscreen')} />
-        </View> */}
       </ScrollView>
     </View>
   );

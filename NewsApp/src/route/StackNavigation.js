@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import NewsFeedScreen from '../container/NewsFeedScreen';
 import NewsDetailScreen from '../container/NewsDetailScreen';
 import Feather from 'react-native-vector-icons/Feather';
+import LocationModal from '../components/LocationModal';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,7 +14,7 @@ const StackNavigation = () => {
       <Stack.Screen 
         name="newsfeed" 
         component={NewsFeedScreen} 
-        options={{
+        options={({navigation}) => ({
             headerShown:true,
             title: 'MyNEWS',
             headerTintColor: '#fff',
@@ -22,11 +23,16 @@ const StackNavigation = () => {
             },
             headerRight: () => (
               <View>
-                <Text style={{color:'#fff'}}>LOCATION</Text>
-                <Feather name="map-pin" size={16} color='white' onPress={() => Alert.alert("Location")}/>
+                {/* <Text style={{color:'#fff'}}>LOCATION</Text> */}
+                {/* <Feather name="map-pin" size={20} color='white' onPress={() => Alert.alert("To be implemented...")}/> */}
+                <Feather name="map-pin" size={20} color='white' onPress={() => navigation.navigate('MyModal')}/>
               </View>
             )
-        }}/>
+          })}/>
+        <Stack.Screen
+          name="MyModal"
+          component={LocationModal}>
+        </Stack.Screen>
         <Stack.Screen 
         name="detailscreen" 
         component={NewsDetailScreen} 
