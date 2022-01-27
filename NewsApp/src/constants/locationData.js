@@ -1,0 +1,30 @@
+export const country = [
+    {
+        code:'in',
+        title:'India',
+    },
+    {
+        code:'au',
+        title:'Australia',
+    },
+    {
+        code:'us',
+        title:'USA',
+    },
+    {
+        code:'cn',
+        title:'China',
+    },
+    {
+        code:'ru',
+        title:'Russia',
+    },
+    {
+        code:'my',
+        title:'Malaysia',
+    },
+    {
+        code:'cz',
+        title:'Czech Republic',
+    },
+]

@@ -1,4 +1,4 @@
-import { View, Text, Button, ScrollView, Alert, Image, ActivityIndicator } from 'react-native';
+import { View, Text, Button, ScrollView, Alert, Image, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import ListFeed from '../components/ListFeed';
 import { dummyData } from '../constants/dummyData';
@@ -7,6 +7,15 @@ import FormInput from '../components/FormInput';
 import icons from '../constants/icons';
 import { FONTS } from '../constants/theme';
 import { getGenArticlesIN } from '../service/news';
+import Feather from 'react-native-vector-icons/Feather'
+// import IconAntDesign from 'react-native-vector-icons/AntDesign';
+// import ModalDropdown from 'react-native-modal-dropdown';
+import ModalComponent from '../components/ModalComponent';
+import { country } from '../constants/locationData';
+import TextButton from '../components/TextButton';
+import RadioButton from 'react-native-radio-button';
+// import RadioForm from 'react-native-simple-radio-button';
+// import RadioGroup from 'react-native-radio-buttons-group';
 
 const NewsFeedScreen = () => {
   const [value, setValue] = useState('');
@@ -14,6 +23,10 @@ const NewsFeedScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [countryCode, setCountryCode] = useState('in');
+  // const [sorting, setSorting] = useState('Newest');
 
   const handleChange = (value) =>{
     const searchRegex = RegExp(`\W*${value}\W*`);
@@ -51,9 +64,48 @@ const NewsFeedScreen = () => {
     }
   }, [data]);
 
+  const openModal = () => {
+    setShowModal(true);
+  }
+
+  const onDismiss = () => {
+    setShowModal(false);
+  }
+
+  const onRadioPress = (index) => {
+    setSelectedIndex(index)
+    // setCountryCode(code)
+    // console.log(index)
+    // console.log(countryCode)
+  }
+  const renderItem = ({item, index}) => {
+    // console.log("Item", item);
+    return(
+      <View style={{flex: 1, flexDirection: "row", justifyContent:'space-between', margin:'2%'}}>
+        <TouchableOpacity>
+          <Text style={{...FONTS.h3}}>{item.title}</Text>
+        </TouchableOpacity>
+          <RadioButton
+            animation={'bounceIn'}
+            // value={item.index}
+            size={14}
+            isSelected={selectedIndex === index }
+            onPress={() => {onRadioPress(index)}}
+          />
+      </View>
+    )
+  }
+
   return (
     <View style={{flex:1}}>
       {/* {console.log(data)} */}
+      <View style={styles.headerWrapper}>
+        <Text style={{...FONTS.h2,color:'#fff', margin:'3.5%'}}>MyNEWS</Text>
+        {/* <Text style={{...FONTS.h3,color:'#fff', marginLeft:'55%'}}>{countryCode}</Text> */}
+        <Feather style={{marginRight:'3.5%'}} name="map-pin" size={22} color='white' onPress={() => openModal()}/>
+        {/* <Feather style={{marginRight:'3.5%'}} name="map-pin" size={22} color='white' onPress={() => this.bs.current.snapPoints(0)}/> */}
+      </View>
+
       <View style={{marginLeft:'4%', marginRight:'4%'}}>
       <FormInput
         placeholder='Search for news, topics...'
@@ -87,7 +139,14 @@ const NewsFeedScreen = () => {
             marginTop:'5%', marginLeft:'4%', marginRight:'4%'
             }}>
           <Text style={{...FONTS.h3, color:'#303F60', fontWeight:'800'}}>Top Headlines</Text>
-          {/* <Text style={{...FONTS.h4, color:'#303F60', fontWeight:'500'}}>Sort:</Text> */}
+          {/* Implement sorting functionality */}
+          {/* <Text style={{...FONTS.h4, color:'#303F60', fontWeight:'500'}}>Sort: </Text>
+          <TouchableOpacity style={{...FONTS.h4, color:'#303F60', fontWeight:'500'}} onPress={handleSorting()}>
+            <Text>af</Text>
+          </TouchableOpacity> */}
+          {/* <ModalDropdown options={['Newest', 'Oldest']}>
+            <Text>Dropdown</Text>
+          </ModalDropdown> */}
         </View>
       <ScrollView style={styles.container}>
         {isLoading ? <ActivityIndicator size="small" color="blue"/> :
@@ -107,12 +166,48 @@ const NewsFeedScreen = () => {
           ))
         }
         {
-          value && filteredData.length===0 ? 
+          value && filteredData && filteredData.length===0 ?
             <Image style={{width:'100%', height:500}} source={require('../assets/NoResultFound.png')} resizeMode='contain' />
-          : console.log(false)
+            : console.log('string value')
         }
 
       </ScrollView>
+
+      {showModal && (
+        <ModalComponent onDismiss={onDismiss}>
+          <View style={{margin:'2%'}}>
+            <Text style={{...FONTS.h3, borderBottomWidth:1, borderBottomColor:'#E8E8E8', paddingBottom:10, fontWeight:'800', marginBottom:'3%'}}>Choose your location</Text>
+            <FlatList
+                data={country}
+                keyExtractor={item => item.code}
+                renderItem={renderItem}
+                extraData={selectedIndex}
+                // renderItem={({item}) => 
+                //   <TouchableOpacity onPress={() => handleLocation(item.code)}>
+                //     <Text style={{...FONTS.h3}}>{item.title}</Text>
+                //   </TouchableOpacity>
+                // }
+            />
+            {/* {console.log(countryCode)} */}
+    
+            <TextButton
+            label="Apply"
+            // Disable the button if needed(for user to put right details first)
+            buttonContainerStyle={{
+              height:55,
+              alignItems:'center',
+              marginLeft: '22%',
+              marginRight: '22%',
+              marginTop: '3%',
+              marginBottom: '3%',
+              borderRadius: 8,
+              // backgroundColor: '#0C54BE'
+            }}
+            onPress={() => {Alert.alert('To be implemented...'), setShowModal(false)}}
+          />
+          </View>
+        </ModalComponent>
+      )}
     </View>
   );
 };

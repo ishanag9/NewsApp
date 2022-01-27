@@ -15,7 +15,7 @@ const StackNavigation = () => {
         name="newsfeed" 
         component={NewsFeedScreen} 
         options={({navigation}) => ({
-            headerShown:true,
+            headerShown:false,
             title: 'MyNEWS',
             headerTintColor: '#fff',
             headerStyle: { 
@@ -29,10 +29,7 @@ const StackNavigation = () => {
               </View>
             )
           })}/>
-        <Stack.Screen
-          name="MyModal"
-          component={LocationModal}>
-        </Stack.Screen>
+        
         <Stack.Screen 
         name="detailscreen" 
         component={NewsDetailScreen} 
