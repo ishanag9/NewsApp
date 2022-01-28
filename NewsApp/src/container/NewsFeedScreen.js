@@ -11,9 +11,10 @@ import Feather from 'react-native-vector-icons/Feather'
 // import IconAntDesign from 'react-native-vector-icons/AntDesign';
 // import ModalDropdown from 'react-native-modal-dropdown';
 import ModalComponent from '../components/ModalComponent';
-import { country } from '../constants/locationData';
+import { country, radio_props_country } from '../constants/locationData';
 import TextButton from '../components/TextButton';
 import RadioButton from 'react-native-radio-button';
+import RadioForm, { RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 // import RadioForm from 'react-native-simple-radio-button';
 // import RadioGroup from 'react-native-radio-buttons-group';
 
@@ -26,6 +27,8 @@ const NewsFeedScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [countryCode, setCountryCode] = useState('in');
+  const [countryCodeInApi, setCountryCodeInApi] = useState('in');
+  const [radioBtnValue, setRadioBtnValue] = useState(0);
   // const [sorting, setSorting] = useState('Newest');
 
   const handleChange = (value) =>{
@@ -46,7 +49,7 @@ const NewsFeedScreen = () => {
 
   useEffect(()=>{ 
     async function getData() {
-      await getGenArticlesIN('in', 'general').then(data => {
+      await getGenArticlesIN(countryCodeInApi, 'general').then(data => {
         setData(data)
       },
       error =>{
@@ -55,7 +58,7 @@ const NewsFeedScreen = () => {
       setIsLoading(false);
     }
     getData()
-  },[])
+  },[countryCodeInApi])
   
 
   useEffect(() => {
@@ -78,6 +81,33 @@ const NewsFeedScreen = () => {
     // console.log(index)
     // console.log(countryCode)
   }
+
+  const handleCountryCode = (value) => {
+    setRadioBtnValue(value);
+    switch (value) {
+      case 0:
+        setCountryCode('in');
+        break;
+      case 1:
+        setCountryCode('au');
+        break;
+      case 2:
+        setCountryCode('us');
+        break;
+      case 3:
+        setCountryCode('my');
+        break;
+      default:
+        break;
+    }
+  }
+
+  const handleApplyLocation = () => {
+    setCountryCodeInApi(countryCode)
+    setIsLoading(true)
+    console.log(countryCodeInApi)
+  }
+
   const renderItem = ({item, index}) => {
     // console.log("Item", item);
     return(
@@ -101,7 +131,7 @@ const NewsFeedScreen = () => {
       {/* Custom Header */}
       <View style={styles.headerWrapper}>
         <Text style={{...FONTS.h2,color:'#fff', margin:'3.5%'}}>MyNEWS</Text>
-        {/* <Text style={{...FONTS.h3,color:'#fff', marginLeft:'55%'}}>{countryCode}</Text> */}
+        <Text style={{...FONTS.h3,color:'#fff', marginLeft:'53%'}}>{countryCodeInApi}</Text>
         <Feather style={{marginRight:'3.5%'}} name="map-pin" size={22} color='white' onPress={() => openModal()}/>
         {/* <Feather style={{marginRight:'3.5%'}} name="map-pin" size={22} color='white' onPress={() => this.bs.current.snapPoints(0)}/> */}
       </View>
@@ -181,7 +211,7 @@ const NewsFeedScreen = () => {
         <ModalComponent onDismiss={onDismiss}>
           <View style={{margin:'2%'}}>
             <Text style={{...FONTS.h3, borderBottomWidth:1, borderBottomColor:'#E8E8E8', paddingBottom:10, fontWeight:'800', marginBottom:'3%'}}>Choose your location</Text>
-            <FlatList
+            {/* <FlatList
                 data={country}
                 keyExtractor={item => item.code}
                 renderItem={renderItem}
@@ -191,9 +221,32 @@ const NewsFeedScreen = () => {
                 //     <Text style={{...FONTS.h3}}>{item.title}</Text>
                 //   </TouchableOpacity>
                 // }
-            />
-            {/* {console.log(countryCode)} */}
-    
+            /> */}
+            <View>
+            {/* <View style={{ alignSelf: 'center' }}> */}
+              {/* <RadioForm
+                radio_props={radio_props_country}
+                initial={radioBtnValue}
+                animation={true}
+                // labelHorizontal={false}
+                onPress={(value) => handleCountryCode(value)}
+              /> */}
+        
+              {radio_props_country.map(res => {
+                return(
+                  <View key={res.key} style={styles.radioContainer}>
+                    <Text style={styles.radioText}>{res.text}</Text>
+                    <TouchableOpacity
+                      style={styles.radioCircle}
+                      onPress={() => handleCountryCode(res.key)}>
+                      {radioBtnValue === res.key && <View style={styles.selectedRb} />}
+                    </TouchableOpacity>
+                  </View>
+                )
+              })}
+            </View>
+            {console.log(radioBtnValue, ' ', countryCode)}
+             
             <TextButton
             label="Apply"
             // Disable the button if needed(for user to put right details first)
@@ -207,7 +260,8 @@ const NewsFeedScreen = () => {
               borderRadius: 8,
               // backgroundColor: '#0C54BE'
             }}
-            onPress={() => {Alert.alert('To be implemented...'), setShowModal(false)}}
+            // onPress={() => {Alert.alert('To be implemented...'), setShowModal(false)}}
+            onPress={() => {handleApplyLocation(), setShowModal(false)}}
           />
           </View>
         </ModalComponent>
