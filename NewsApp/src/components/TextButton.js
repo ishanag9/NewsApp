@@ -4,6 +4,7 @@ import { FONTS } from '../constants/theme'
 
 const TextButton = ({buttonContainerStyle, label, labelStyle, onPress}) => {
     return (
+        // TextButton which can be used anywhere in the news application(login, modal, screen...)
         <TouchableOpacity
             style={{
                 alignItems: 'center',

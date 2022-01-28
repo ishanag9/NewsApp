@@ -98,7 +98,7 @@ const NewsFeedScreen = () => {
 
   return (
     <View style={{flex:1}}>
-      {/* {console.log(data)} */}
+      {/* Custom Header */}
       <View style={styles.headerWrapper}>
         <Text style={{...FONTS.h2,color:'#fff', margin:'3.5%'}}>MyNEWS</Text>
         {/* <Text style={{...FONTS.h3,color:'#fff', marginLeft:'55%'}}>{countryCode}</Text> */}
@@ -106,6 +106,7 @@ const NewsFeedScreen = () => {
         {/* <Feather style={{marginRight:'3.5%'}} name="map-pin" size={22} color='white' onPress={() => this.bs.current.snapPoints(0)}/> */}
       </View>
 
+      {/* Search bar */}
       <View style={{marginLeft:'4%', marginRight:'4%'}}>
       <FormInput
         placeholder='Search for news, topics...'
@@ -133,6 +134,8 @@ const NewsFeedScreen = () => {
         } 
         />
         </View>
+
+        {/* News container */}
         <View style={{
             flexDirection: "row",
             justifyContent: "flex-start",
@@ -173,6 +176,7 @@ const NewsFeedScreen = () => {
 
       </ScrollView>
 
+      {/* Handling modal for location */}
       {showModal && (
         <ModalComponent onDismiss={onDismiss}>
           <View style={{margin:'2%'}}>

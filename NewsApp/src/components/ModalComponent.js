@@ -6,19 +6,19 @@ import { windowHeight } from '../constants/utils';
 const ModalComponent = (props) => {
     const swiping = useRef(new Animated.Value(windowHeight)).current; //for swiping modal
 
-    const resetPositionAni = Animated.timing(swiping, {
+    const resetPositionAni = Animated.timing(swiping, { //value to close the modal view
         toValue: 0,
         duration: 250,
         useNativeDriver: true,
     })
 
-    const closeAnimation = Animated.timing(swiping, {
+    const closeAnimation = Animated.timing(swiping, { //value for sliding the modal view
         toValue: windowHeight,
         duration: 500,
         useNativeDriver: true,
     })
 
-    const translateY = swiping.interpolate({
+    const translateY = swiping.interpolate({    //interpolating the animation values of swiping
         inputRange: [-1, 0, 1],
         outputRange: [0, 0, 1],
     });
@@ -29,6 +29,7 @@ const ModalComponent = (props) => {
         resetPositionAni.start();
     }, [resetPositionAni]);
 
+    //swipe up and down the modal view
     const panResponders = useRef(
         PanResponder.create({
           onStartShouldSetPanResponder: () => true,
@@ -36,7 +37,7 @@ const ModalComponent = (props) => {
           onPanResponderMove: Animated.event([null, {dy: swiping}], {
             useNativeDriver: false,
           }),
-          onPanResponderRelease: (_, gs) => {
+          onPanResponderRelease: (_, gs) => { //dismiss or reset modal on direction and speed 
             if (gs.dy > 0 && gs.vy > 2) {
               return handleDismiss();
             }
@@ -56,6 +57,7 @@ const ModalComponent = (props) => {
        <StatusBar hidden/>   
        <TouchableWithoutFeedback onPress={handleDismiss}>
         <View style={styles.modalView2}>
+          {/* Container slide from  bottom screen and transform used to respond animation value */}
         <Animated.View style={{...styles.subModalView2, transform: [{translateY: translateY}],}}
           {...panResponders.panHandlers}>
             <View style={styles.sliderIndicatorRow}>

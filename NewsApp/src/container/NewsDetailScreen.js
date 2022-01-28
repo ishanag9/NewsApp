@@ -18,6 +18,7 @@ const NewsDetailScreen = ({navigation, route}) => {
       };
 
   return (
+    // News details view container
     <SafeAreaView style={{flex:1}}>
       
         <ImageBackground source={urlToImage} style={{width: '100%', height: 300}}>
@@ -39,8 +40,8 @@ const NewsDetailScreen = ({navigation, route}) => {
             <Text style={{...FONTS.body3, color:'blue'}}>See full story</Text>
             <Feather name='chevron-right' size={24} color='blue'/>
         </TouchableOpacity>
-
       </ScrollView>
+      
     </SafeAreaView>
   );
 };
