@@ -11,7 +11,7 @@ import Feather from 'react-native-vector-icons/Feather'
 // import IconAntDesign from 'react-native-vector-icons/AntDesign';
 // import ModalDropdown from 'react-native-modal-dropdown';
 import ModalComponent from '../components/ModalComponent';
-import { country, radio_props_country } from '../constants/locationData';
+import {radio_props_country } from '../constants/modalData';
 import TextButton from '../components/TextButton';
 import RadioButton from 'react-native-radio-button';
 import RadioForm, { RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -24,7 +24,8 @@ const NewsFeedScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showLocModal, setShowLocModal] = useState(false);
+  const [showCatModal, setShowCatModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [countryCode, setCountryCode] = useState('in');
   const [countryCodeInApi, setCountryCodeInApi] = useState('in');
@@ -68,11 +69,11 @@ const NewsFeedScreen = () => {
   }, [data]);
 
   const openModal = () => {
-    setShowModal(true);
+    setShowLocModal(true);
   }
 
   const onDismiss = () => {
-    setShowModal(false);
+    setShowLocModal(false);
   }
 
   const onRadioPress = (index) => {
@@ -128,6 +129,7 @@ const NewsFeedScreen = () => {
 
   return (
     <View style={{flex:1}}>
+
       {/* Custom Header */}
       <View style={styles.headerWrapper}>
         <Text style={{...FONTS.h2,color:'#fff', margin:'3.5%'}}>MyNEWS</Text>
@@ -206,32 +208,29 @@ const NewsFeedScreen = () => {
 
       </ScrollView>
 
+      {/* Filter by category icon button */}
+      <TextButton
+        buttonContainerStyle={{
+          width: 50,  
+          height: 50,   
+          borderRadius: 100,            
+          backgroundColor: '#0C54BE',                                    
+          position: 'absolute',                                          
+          bottom: 20,                                                    
+          right: 20,
+        }}
+        icon={icons.filter}
+        iconPosition={"LEFT"}
+        iconStyle={{ tintColor: "white"}}
+        // onPress={() => navigation.navigate("ContactSupportPage")}
+      />
+
       {/* Handling modal for location */}
-      {showModal && (
+      {showLocModal && (
         <ModalComponent onDismiss={onDismiss}>
           <View style={{margin:'2%'}}>
             <Text style={{...FONTS.h3, borderBottomWidth:1, borderBottomColor:'#E8E8E8', paddingBottom:10, fontWeight:'800', marginBottom:'3%'}}>Choose your location</Text>
-            {/* <FlatList
-                data={country}
-                keyExtractor={item => item.code}
-                renderItem={renderItem}
-                extraData={selectedIndex}
-                // renderItem={({item}) => 
-                //   <TouchableOpacity onPress={() => handleLocation(item.code)}>
-                //     <Text style={{...FONTS.h3}}>{item.title}</Text>
-                //   </TouchableOpacity>
-                // }
-            /> */}
             <View>
-            {/* <View style={{ alignSelf: 'center' }}> */}
-              {/* <RadioForm
-                radio_props={radio_props_country}
-                initial={radioBtnValue}
-                animation={true}
-                // labelHorizontal={false}
-                onPress={(value) => handleCountryCode(value)}
-              /> */}
-        
               {radio_props_country.map(res => {
                 return(
                   <View key={res.key} style={styles.radioContainer}>
@@ -260,8 +259,8 @@ const NewsFeedScreen = () => {
               borderRadius: 8,
               // backgroundColor: '#0C54BE'
             }}
-            // onPress={() => {Alert.alert('To be implemented...'), setShowModal(false)}}
-            onPress={() => {handleApplyLocation(), setShowModal(false)}}
+            // onPress={() => {Alert.alert('To be implemented...'), setShowLocModal(false)}}
+            onPress={() => {handleApplyLocation(), setShowLocModal(false)}}
           />
           </View>
         </ModalComponent>

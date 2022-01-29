@@ -1,0 +1,41 @@
+export const radio_props_country = [
+    {
+        key:0,
+        text:'India',
+    },
+    {
+        key:1,
+        text:'Australia',
+    },
+    {
+        key:2,
+        text:'USA',
+    },
+    {
+        key:3,
+        text:'Malaysia',
+    },
+]
+
+export const radio_props_categories = [
+    {
+        key:0,
+        text:'General',
+    },
+    {
+        key:1,
+        text:'Business',
+    },
+    {
+        key:2,
+        text:'Technology',
+    },
+    {
+        key:3,
+        text:'Politics',
+    },
+    {
+        key:4,
+        text:'Entertainment',
+    },
+]

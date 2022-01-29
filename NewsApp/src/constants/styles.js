@@ -122,4 +122,10 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: '#0C54BE',
   },
+  image: {
+    marginTop: '50%',
+    width: '46%',
+    height: '46%',
+    tintColor: 'black'
+  }
 })
