@@ -1,4 +1,4 @@
-import { View, Text, Button, ScrollView, Alert, Image, ActivityIndicator, FlatList, TouchableNativeFeedback, TouchableWithoutFeedback, TouchableHighlight } from 'react-native';
+import { View, Text, Button, ScrollView, Alert, Image, ActivityIndicator, FlatList, TouchableOpacity, TouchableHighlight } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import ListFeed from '../components/ListFeed';
 import { dummyData } from '../constants/dummyData';
@@ -9,15 +9,9 @@ import { FONTS } from '../constants/theme';
 import { getGenArticlesIN } from '../service/news';
 import Feather from 'react-native-vector-icons/Feather'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-// import IconAntDesign from 'react-native-vector-icons/AntDesign';
-// import ModalDropdown from 'react-native-modal-dropdown';
 import ModalComponent from '../components/ModalComponent';
 import {radio_props_categories, radio_props_country } from '../constants/modalData';
 import TextButton from '../components/TextButton';
-import RadioButton from 'react-native-radio-button';
-import RadioForm, { RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-// import RadioForm from 'react-native-simple-radio-button';
-// import RadioGroup from 'react-native-radio-buttons-group';
 
 const NewsFeedScreen = () => {
   const [value, setValue] = useState('');
@@ -34,7 +28,6 @@ const NewsFeedScreen = () => {
   const [categoryInApi, setCategoryInApi] = useState('general');
   const [radioBtnValue, setRadioBtnValue] = useState(0);
   const [radioBtnValueCat, setRadioBtnValueCat] = useState(0);
-  // const [sortToggle, setSortToggle] = useState(true);
   const [sorting, setSorting] = useState('Newest');
   
 
@@ -75,20 +68,9 @@ const NewsFeedScreen = () => {
     }
   }, [data]);
 
-  const openModal = () => {
-    setShowLocModal(true);
-  }
-
   const onDismiss = () => {
     setShowLocModal(false);
     setShowCatModal(false);
-  }
-
-  const onRadioPress = (index) => {
-    setSelectedIndex(index)
-    // setCountryCode(code)
-    // console.log(index)
-    // console.log(countryCode)
   }
 
   const handleCountryCode = (value) => {
@@ -149,30 +131,10 @@ const NewsFeedScreen = () => {
   const handleSorting = () => {
     if(sorting === 'Newest'){
       setSorting('Oldest')
-      
     } else {
       setSorting('Newest')
     }
-    // setIsLoading(true)
     filteredData.reverse()
-  }
-
-  const renderItem = ({item, index}) => {
-    // console.log("Item", item);
-    return(
-      <View style={{flex: 1, flexDirection: "row", justifyContent:'space-between', margin:'2%'}}>
-        <TouchableOpacity>
-          <Text style={{...FONTS.h3}}>{item.title}</Text>
-        </TouchableOpacity>
-          <RadioButton
-            animation={'bounceIn'}
-            // value={item.index}
-            size={14}
-            isSelected={selectedIndex === index }
-            onPress={() => {onRadioPress(index)}}
-          />
-      </View>
-    )
   }
 
   return (
@@ -182,7 +144,7 @@ const NewsFeedScreen = () => {
       <View style={styles.headerWrapper}>
         <Text style={{...FONTS.h2,color:'#fff', margin:'3.5%'}}>MyNEWS</Text>
         <Text style={{...FONTS.h3,color:'#fff', marginLeft:'53%'}}>{countryCodeInApi}</Text>
-        <Feather style={{marginRight:'3.5%'}} name="map-pin" size={22} color='white' onPress={() => openModal()}/>
+        <Feather style={{marginRight:'3.5%'}} name="map-pin" size={22} color='white' onPress={() => setShowLocModal(true)}/>
         {/* <Feather style={{marginRight:'3.5%'}} name="map-pin" size={22} color='white' onPress={() => this.bs.current.snapPoints(0)}/> */}
       </View>
 
@@ -211,8 +173,7 @@ const NewsFeedScreen = () => {
                 }}
           />
             </View>
-        } 
-        />
+        }/>
         </View>
 
         {/* News container */}
@@ -229,36 +190,34 @@ const NewsFeedScreen = () => {
               <MaterialCommunityIcons name='sort-bool-descending' size={22} color='#303F60'/>
               : <MaterialCommunityIcons name='sort-bool-ascending' size={22} color='#303F60'/>
             }
-            {/* {console.log(sorting)} */}
           </TouchableHighlight>
           {/* <ModalDropdown options={['Newest', 'Oldest']}>
             <Text>Dropdown</Text>
           </ModalDropdown> */}
         </View>
-      <ScrollView style={styles.container}>
-        {isLoading ? <ActivityIndicator size="small" color="blue"/> :
-          filteredData.map(item => (
-            <ListFeed
-              key={item?.url}
-              title={item?.title}
-              description={item?.description}
-              urlToImage={{uri: item.urlToImage != null ? item.urlToImage : 'https://image.shutterstock.com/image-vector/404-not-found-problem-disconnect-600w-721322569.jpg'}}
-              publishedAt={item?.publishedAt}
-              //Use this at news detail screen
-              name={item?.source.name}
-              author={item?.author}
-              url={item?.url}
-              content={item?.content}
+        <ScrollView style={styles.container}>
+          {isLoading ? <ActivityIndicator size="small" color="blue"/> :
+            filteredData.map(item => (
+              <ListFeed
+                key={item?.url}
+                title={item?.title}
+                description={item?.description}
+                urlToImage={{uri: item.urlToImage != null ? item.urlToImage : 'https://image.shutterstock.com/image-vector/404-not-found-problem-disconnect-600w-721322569.jpg'}}
+                publishedAt={item?.publishedAt}
+                //Using this data at news detail screen
+                name={item?.source.name}
+                author={item?.author}
+                url={item?.url}
+                content={item?.content}
             />
           ))
-        }
-        {
-          value && filteredData && filteredData.length===0 ?
-            <Image style={{width:'100%', height:500}} source={require('../assets/NoResultFound.png')} resizeMode='contain' />
-            : console.log('string value')
-        }
-
-      </ScrollView>
+          }
+          {
+            value && filteredData && filteredData.length===0 ?
+              <Image style={{width:'100%', height:500}} source={require('../assets/NoResultFound.png')} resizeMode='contain' />
+              : console.log('string value')
+          }
+        </ScrollView>
 
       {/* Filter by category icon button */}
       <TextButton
@@ -311,7 +270,6 @@ const NewsFeedScreen = () => {
               borderRadius: 8,
               // backgroundColor: '#0C54BE'
             }}
-            // onPress={() => {Alert.alert('To be implemented...'), setShowLocModal(false)}}
             onPress={() => {handleApplyLocation(), setShowLocModal(false)}}
           />
           </View>
@@ -352,7 +310,6 @@ const NewsFeedScreen = () => {
               borderRadius: 8,
               // backgroundColor: '#0C54BE'
             }}
-            // onPress={() => {Alert.alert('To be implemented...'), setShowLocModal(false)}}
             onPress={() => {handleApplyCategory(), setShowCatModal(false)}}
           />
           </View>
