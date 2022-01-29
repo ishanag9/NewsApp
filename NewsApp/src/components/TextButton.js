@@ -31,14 +31,14 @@
 // export default TextButton
 
 import React from 'react'
-import { TouchableOpacity, Text, Touchable, Image } from 'react-native'
+import { TouchableOpacity, Text, Touchable, Image, Pressable } from 'react-native'
 import { styles } from '../constants/styles'
 import { FONTS } from '../constants/theme'
 
 const TextButton = ({buttonContainerStyle, label, labelStyle, onPress, icon, iconStyle, iconPosition}) => {
     return (
         // TextButton which can be used anywhere in the news application(modal, screen, etc...)
-        <TouchableOpacity
+        <Pressable
             style={{
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -46,6 +46,7 @@ const TextButton = ({buttonContainerStyle, label, labelStyle, onPress, icon, ico
                 ...buttonContainerStyle
             }}
             onPress={onPress}
+            underlayColor='#0C54BE'
         >
 
             {iconPosition == "LEFT" && 
@@ -78,7 +79,7 @@ const TextButton = ({buttonContainerStyle, label, labelStyle, onPress, icon, ico
                 />
             }
 
-        </TouchableOpacity>
+        </Pressable>
     )
 }
 

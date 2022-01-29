@@ -26,7 +26,7 @@ const NewsFeedScreen = () => {
   const [countryCodeInApi, setCountryCodeInApi] = useState('in');
   const [category, setCategory] = useState('general');
   const [categoryInApi, setCategoryInApi] = useState('general');
-  const [radioBtnValue, setRadioBtnValue] = useState(0);
+  const [radioBtnValueLoc, setRadioBtnValueLoc] = useState(0);
   const [radioBtnValueCat, setRadioBtnValueCat] = useState(0);
   const [sorting, setSorting] = useState('Newest');
   
@@ -71,10 +71,46 @@ const NewsFeedScreen = () => {
   const onDismiss = () => {
     setShowLocModal(false);
     setShowCatModal(false);
+    switch (categoryInApi) {
+      case 'general':
+        setRadioBtnValueCat(0);
+        break;
+      case 'business':
+        setRadioBtnValueCat(1);
+        break;
+        case 'technology':
+      setRadioBtnValueCat(2);
+      break;
+      case 'politics':
+        setRadioBtnValueCat(3);
+        break;
+        case 'entertainment':
+      setRadioBtnValueCat(4);
+      break;
+      default:
+        break;
+    }
+
+    switch (countryCodeInApi) {
+      case 'in':
+        setRadioBtnValueLoc(0);
+        break;
+      case 'au':
+        setRadioBtnValueLoc(1);
+        break;
+      case 'us':
+        setRadioBtnValueLoc(2);
+        break;
+      case 'my':
+        setRadioBtnValueLoc(3);
+        break;
+      default:
+        break;
+    }
   }
 
   const handleCountryCode = (value) => {
-    setRadioBtnValue(value);
+    setRadioBtnValueLoc(value);
     switch (value) {
       case 0:
         setCountryCode('in');
@@ -185,7 +221,7 @@ const NewsFeedScreen = () => {
           <Text style={{...FONTS.h3, color:'#303F60', fontWeight:'800'}}>Top Headlines ➠ {categoryInApi[0].toUpperCase()+categoryInApi.substring(1)}</Text>
           {/* Implement sorting functionality */}
           {/* <Text style={{...FONTS.h4, color:'#303F60', fontWeight:'500'}}>Sort: </Text> */}
-          <TouchableHighlight style={{...FONTS.h4, color:'#303F60',marginLeft:'42%', fontWeight:'500'}} underlayColor='#F5F9FD' onPress={() => handleSorting()}>
+          <TouchableHighlight style={{...FONTS.h4, color:'#303F60',marginLeft:'94%', fontWeight:'500', position:'absolute'}} underlayColor='#F5F9FD' onPress={() => handleSorting()}>
             {sorting == 'Newest' ? 
               <MaterialCommunityIcons name='sort-bool-descending' size={22} color='#303F60'/>
               : <MaterialCommunityIcons name='sort-bool-ascending' size={22} color='#303F60'/>
@@ -238,7 +274,7 @@ const NewsFeedScreen = () => {
 
       {/* Handling modal for location */}
       {showLocModal && (
-        <ModalComponent onDismiss={onDismiss}>
+        <ModalComponent onDismiss={() => onDismiss()}>
           <View style={{margin:'2%'}}>
             <Text style={{...FONTS.h3, borderBottomWidth:1, borderBottomColor:'#E8E8E8', paddingBottom:10, fontWeight:'800', marginBottom:'3%'}}>Choose your location</Text>
             <View>
@@ -249,13 +285,13 @@ const NewsFeedScreen = () => {
                     <TouchableOpacity
                       style={styles.radioCircle}
                       onPress={() => handleCountryCode(res.key)}>
-                      {radioBtnValue === res.key && <View style={styles.selectedRb} />}
+                      {radioBtnValueLoc === res.key && <View style={styles.selectedRb} />}
                     </TouchableOpacity>
                   </View>
                 )
               })}
             </View>
-            {console.log(radioBtnValue, ' ', countryCode)}
+            {console.log(radioBtnValueLoc, ' ', countryCode)}
              
             <TextButton
             label="Apply"
