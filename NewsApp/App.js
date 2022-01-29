@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import StackNavigation from './src/route/StackNavigation';
-import { StatusBar } from 'react-native';
+import { Alert, StatusBar } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
+import NoInternetScreen from './src/container/NoInternetScreen';
+
 // import { Provider } from 'react-redux';
 // import store from './src/redux/store';
 
@@ -18,7 +21,15 @@ const MyTheme = {
 };
 
 const AppEntry = () => {
-  // const userExists = useSelector(state => state.userReducer.userExists)
+  const [netInfo, setNetInfo] = useState('')
+
+  useEffect(() => {
+    const data = NetInfo.addEventListener((state) => {
+        setNetInfo(state.isConnected)}
+      )
+
+    return()=>{data}
+  },[])
 
   useEffect(()=>{
     SplashScreen.hide();
@@ -27,7 +38,7 @@ const AppEntry = () => {
   return (
       <NavigationContainer theme={MyTheme}>
         <StatusBar hidden/>
-        <StackNavigation/>
+        {netInfo ? <StackNavigation/> : <NoInternetScreen/>}
       </NavigationContainer>
   );
 }
