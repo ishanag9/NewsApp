@@ -1,4 +1,4 @@
-import { View, Text, Button, ScrollView, Alert, Image, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Button, ScrollView, Alert, Image, ActivityIndicator, FlatList, TouchableNativeFeedback, TouchableWithoutFeedback, TouchableHighlight } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import ListFeed from '../components/ListFeed';
 import { dummyData } from '../constants/dummyData';
@@ -8,10 +8,11 @@ import icons from '../constants/icons';
 import { FONTS } from '../constants/theme';
 import { getGenArticlesIN } from '../service/news';
 import Feather from 'react-native-vector-icons/Feather'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 // import IconAntDesign from 'react-native-vector-icons/AntDesign';
 // import ModalDropdown from 'react-native-modal-dropdown';
 import ModalComponent from '../components/ModalComponent';
-import {radio_props_country } from '../constants/modalData';
+import {radio_props_categories, radio_props_country } from '../constants/modalData';
 import TextButton from '../components/TextButton';
 import RadioButton from 'react-native-radio-button';
 import RadioForm, { RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -29,8 +30,13 @@ const NewsFeedScreen = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [countryCode, setCountryCode] = useState('in');
   const [countryCodeInApi, setCountryCodeInApi] = useState('in');
+  const [category, setCategory] = useState('general');
+  const [categoryInApi, setCategoryInApi] = useState('general');
   const [radioBtnValue, setRadioBtnValue] = useState(0);
-  // const [sorting, setSorting] = useState('Newest');
+  const [radioBtnValueCat, setRadioBtnValueCat] = useState(0);
+  // const [sortToggle, setSortToggle] = useState(true);
+  const [sorting, setSorting] = useState('Newest');
+  
 
   const handleChange = (value) =>{
     const searchRegex = RegExp(`\W*${value}\W*`);
@@ -39,6 +45,7 @@ const NewsFeedScreen = () => {
     setFilteredData(data.filter(data=> data.title.toLowerCase().match(searchRegex) 
                       ||  data.description?.toLowerCase().match(searchRegex)
                       ||  data.source.name?.toLowerCase().match(searchRegex)))
+             
     // console.log(filteredData)
 }
 
@@ -50,7 +57,7 @@ const NewsFeedScreen = () => {
 
   useEffect(()=>{ 
     async function getData() {
-      await getGenArticlesIN(countryCodeInApi, 'general').then(data => {
+      await getGenArticlesIN(countryCodeInApi, categoryInApi).then(data => {
         setData(data)
       },
       error =>{
@@ -59,7 +66,7 @@ const NewsFeedScreen = () => {
       setIsLoading(false);
     }
     getData()
-  },[countryCodeInApi])
+  },[countryCodeInApi, categoryInApi])
   
 
   useEffect(() => {
@@ -74,6 +81,7 @@ const NewsFeedScreen = () => {
 
   const onDismiss = () => {
     setShowLocModal(false);
+    setShowCatModal(false);
   }
 
   const onRadioPress = (index) => {
@@ -107,6 +115,46 @@ const NewsFeedScreen = () => {
     setCountryCodeInApi(countryCode)
     setIsLoading(true)
     console.log(countryCodeInApi)
+  }
+
+  const handleNewsCategory = (value) => {
+    setRadioBtnValueCat(value);
+    switch (value) {
+      case 0:
+        setCategory('general');
+        break;
+      case 1:
+        setCategory('business');
+        break;
+      case 2:
+        setCategory('technology');
+        break;
+      case 3:
+        setCategory('politics');
+        break;
+      case 4:
+        setCategory('entertainment');
+        break;  
+      default:
+        break;
+    }
+  }
+
+  const handleApplyCategory = () => {
+    setCategoryInApi(category)
+    setIsLoading(true)
+    console.log(categoryInApi)
+  }
+
+  const handleSorting = () => {
+    if(sorting === 'Newest'){
+      setSorting('Oldest')
+      
+    } else {
+      setSorting('Newest')
+    }
+    // setIsLoading(true)
+    filteredData.reverse()
   }
 
   const renderItem = ({item, index}) => {
@@ -173,12 +221,16 @@ const NewsFeedScreen = () => {
             justifyContent: "flex-start",
             marginTop:'5%', marginLeft:'4%', marginRight:'4%'
             }}>
-          <Text style={{...FONTS.h3, color:'#303F60', fontWeight:'800'}}>Top Headlines</Text>
+          <Text style={{...FONTS.h3, color:'#303F60', fontWeight:'800'}}>Top Headlines ➠ {categoryInApi[0].toUpperCase()+categoryInApi.substring(1)}</Text>
           {/* Implement sorting functionality */}
-          {/* <Text style={{...FONTS.h4, color:'#303F60', fontWeight:'500'}}>Sort: </Text>
-          <TouchableOpacity style={{...FONTS.h4, color:'#303F60', fontWeight:'500'}} onPress={handleSorting()}>
-            <Text>af</Text>
-          </TouchableOpacity> */}
+          {/* <Text style={{...FONTS.h4, color:'#303F60', fontWeight:'500'}}>Sort: </Text> */}
+          <TouchableHighlight style={{...FONTS.h4, color:'#303F60',marginLeft:'42%', fontWeight:'500'}} underlayColor='#F5F9FD' onPress={() => handleSorting()}>
+            {sorting == 'Newest' ? 
+              <MaterialCommunityIcons name='sort-bool-descending' size={22} color='#303F60'/>
+              : <MaterialCommunityIcons name='sort-bool-ascending' size={22} color='#303F60'/>
+            }
+            {/* {console.log(sorting)} */}
+          </TouchableHighlight>
           {/* <ModalDropdown options={['Newest', 'Oldest']}>
             <Text>Dropdown</Text>
           </ModalDropdown> */}
@@ -222,7 +274,7 @@ const NewsFeedScreen = () => {
         icon={icons.filter}
         iconPosition={"LEFT"}
         iconStyle={{ tintColor: "white"}}
-        // onPress={() => navigation.navigate("ContactSupportPage")}
+        onPress={() => setShowCatModal(true)}
       />
 
       {/* Handling modal for location */}
@@ -261,6 +313,47 @@ const NewsFeedScreen = () => {
             }}
             // onPress={() => {Alert.alert('To be implemented...'), setShowLocModal(false)}}
             onPress={() => {handleApplyLocation(), setShowLocModal(false)}}
+          />
+          </View>
+        </ModalComponent>
+      )}
+
+      {/* Handling modal for categories */}
+      {showCatModal && (
+        <ModalComponent onDismiss={onDismiss}>
+          <View style={{margin:'2%'}}>
+            <Text style={{...FONTS.h3, borderBottomWidth:1, borderBottomColor:'#E8E8E8', paddingBottom:10, fontWeight:'800', marginBottom:'3%'}}>Choose your news category</Text>
+            <View>
+              {radio_props_categories.map(res => {
+                return(
+                  <View key={res.key} style={styles.radioContainer}>
+                    <Text style={styles.radioText}>{res.text}</Text>
+                    <TouchableOpacity
+                      style={styles.radioCircle}
+                      onPress={() => handleNewsCategory(res.key)}>
+                      {radioBtnValueCat === res.key && <View style={styles.selectedRb} />}
+                    </TouchableOpacity>
+                  </View>
+                )
+              })}
+            </View>
+            {console.log(radioBtnValueCat, ' ', category)}
+             
+            <TextButton
+            label="Apply"
+            // Disable the button if needed(for user to put right details first)
+            buttonContainerStyle={{
+              height:55,
+              alignItems:'center',
+              marginLeft: '22%',
+              marginRight: '22%',
+              marginTop: '3%',
+              marginBottom: '3%',
+              borderRadius: 8,
+              // backgroundColor: '#0C54BE'
+            }}
+            // onPress={() => {Alert.alert('To be implemented...'), setShowLocModal(false)}}
+            onPress={() => {handleApplyCategory(), setShowCatModal(false)}}
           />
           </View>
         </ModalComponent>
