@@ -12,6 +12,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ModalComponent from '../components/ModalComponent';
 import {radio_props_categories, radio_props_country } from '../constants/modalData';
 import TextButton from '../components/TextButton';
+import { windowHeight, windowWidth } from '../constants/utils';
 
 const NewsFeedScreen = () => {
   const [value, setValue] = useState('');
@@ -231,8 +232,8 @@ const NewsFeedScreen = () => {
             <Text>Dropdown</Text>
           </ModalDropdown> */}
         </View>
-        <ScrollView style={styles.container}>
-          {isLoading ? <ActivityIndicator size="small" color="blue"/> :
+        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+          {isLoading ?<ActivityIndicator style={{margin:windowHeight/3, marginLeft:windowWidth/2.2}} size="small" color="blue"/> :
             filteredData.map(item => (
               <ListFeed
                 key={item?.url}

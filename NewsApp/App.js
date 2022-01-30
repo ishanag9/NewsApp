@@ -21,7 +21,7 @@ const MyTheme = {
 };
 
 const AppEntry = () => {
-  const [netInfo, setNetInfo] = useState('')
+  const [netInfo, setNetInfo] = useState(true)
 
   useEffect(() => {
     const data = NetInfo.addEventListener((state) => {

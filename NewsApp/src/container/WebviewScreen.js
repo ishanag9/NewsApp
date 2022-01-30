@@ -5,7 +5,7 @@ import { windowHeight, windowWidth } from '../constants/utils';
 
 const WebviewScreen = ({route}) => {
     const url = route.params;
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
   return (
     // <View style={{flex:1}}>

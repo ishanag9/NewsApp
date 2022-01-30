@@ -38,7 +38,8 @@ import { FONTS } from '../constants/theme'
 const TextButton = ({buttonContainerStyle, label, labelStyle, onPress, icon, iconStyle, iconPosition}) => {
     return (
         // TextButton which can be used anywhere in the news application(modal, screen, etc...)
-        <Pressable
+        // Use either Pressable or Touchable Opacity
+        <TouchableOpacity
             style={{
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -79,7 +80,7 @@ const TextButton = ({buttonContainerStyle, label, labelStyle, onPress, icon, ico
                 />
             }
 
-        </Pressable>
+        </TouchableOpacity>
     )
 }
 

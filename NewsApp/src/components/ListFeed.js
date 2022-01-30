@@ -23,7 +23,7 @@ export default function ListFeed({id, title, description, urlToImage, publishedA
     },[])    
 
     return (
-    <View style={{marginBottom: 20, borderRadius: 8}}>
+    <View style={{marginBottom: 20, backgroundColor:'#F5F9FD'}}>
       <TouchableNativeFeedback onPress={()=> navigation.navigate('detailscreen', {title:title, name:name, url:url, author:author, content:content, urlToImage:urlToImage, publishedAt:timeDetailScreen})}>
         {/* Using card style to show news */}
         <View style={styles.mainCardView}>  
