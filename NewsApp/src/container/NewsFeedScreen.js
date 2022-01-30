@@ -189,10 +189,10 @@ const NewsFeedScreen = () => {
       <FormInput
         placeholder='Search for news, topics...'
         // keyboardType="default"
-        autoCapitalize="words"
+        autoCapitalize="none"
         onChange={(value) => {
             handleChange(value)
-            console.log('typing')
+            console.log('typing ', value)
         }}
         appendComponent={
             <View
