@@ -12,9 +12,10 @@ const NewsDetailScreen = ({navigation, route}) => {
     const {content} = route.params;
     const {publishedAt} = route.params;
 
-    const handleClick = () => {
-        Linking.openURL(url)
-               .catch(error => console.error("Couldn't load page", error));
+    const handleClick = (url) => {
+        // Linking.openURL(url)
+        //        .catch(error => console.error("Couldn't load page", error));
+        navigation.navigate('webviewscreen', {url : url})
       };
 
   return (
@@ -36,7 +37,7 @@ const NewsDetailScreen = ({navigation, route}) => {
             flexDirection: "row",
             justifyContent: "flex-start",
             margin:'1%',
-        }} onPress={() => handleClick()}>
+        }} onPress={() => handleClick(url)}>
             <Text style={{...FONTS.body3, color:'blue'}}>See full story</Text>
             <Feather name='chevron-right' size={24} color='blue'/>
         </TouchableOpacity>

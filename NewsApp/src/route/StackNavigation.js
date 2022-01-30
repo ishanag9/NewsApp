@@ -3,6 +3,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import NewsFeedScreen from '../container/NewsFeedScreen';
 import NewsDetailScreen from '../container/NewsDetailScreen';
+import WebviewScreen from '../container/WebviewScreen';
 import Feather from 'react-native-vector-icons/Feather';
 
 const Stack = createNativeStackNavigator();
@@ -42,6 +43,21 @@ const StackNavigation = () => {
               <View><Feather name="chevron-left" size={28} color='white' onPress={() => navigation.goBack()}/></View>
             ),
           })}/>
+
+        <Stack.Screen 
+        name="webviewscreen" 
+        component={WebviewScreen} 
+        options={({navigation}) => ({
+            headerShown:true,
+            title: '',
+            headerTintColor: '#fff',
+            headerStyle: { 
+                backgroundColor: '#0C54BE' 
+            },
+            headerLeft: () => (
+              <View><Feather name="chevron-left" size={28} color='white' onPress={() => navigation.goBack()}/></View>
+            ),
+          })}/>  
     </Stack.Navigator>
   );
 };
