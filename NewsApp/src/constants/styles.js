@@ -81,7 +81,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderTopRightRadius: 12,
     borderTopLeftRadius: 12,
-    minHeight: 200,
+    minHeight: 200,    
   },
   sliderIndicatorRow: {
     flexDirection: 'row',
@@ -104,7 +104,7 @@ export const styles = StyleSheet.create({
     ...FONTS.h3,
     marginRight: '10%',
     fontSize: 18,
-    // color: '#000',
+    color: '#222222',
     // fontWeight: '800'
   },
   radioCircle: {

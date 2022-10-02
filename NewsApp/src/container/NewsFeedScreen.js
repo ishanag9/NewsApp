@@ -277,7 +277,7 @@ const NewsFeedScreen = () => {
       {showLocModal && (
         <ModalComponent onDismiss={() => onDismiss()}>
           <View style={{margin:'2%'}}>
-            <Text style={{...FONTS.h3, borderBottomWidth:1, borderBottomColor:'#E8E8E8', paddingBottom:10, fontWeight:'800', marginBottom:'3%'}}>Choose your location</Text>
+            <Text style={{...FONTS.h3, borderBottomWidth:1, borderBottomColor:'#E8E8E8', paddingBottom:10, fontWeight:'800', marginBottom:'3%', color: '#555555'}}>Choose your location</Text>
             <View>
               {radio_props_country.map(res => {
                 return(
@@ -317,7 +317,7 @@ const NewsFeedScreen = () => {
       {showCatModal && (
         <ModalComponent onDismiss={onDismiss}>
           <View style={{margin:'2%'}}>
-            <Text style={{...FONTS.h3, borderBottomWidth:1, borderBottomColor:'#E8E8E8', paddingBottom:10, fontWeight:'800', marginBottom:'3%'}}>Choose your news category</Text>
+            <Text style={{...FONTS.h3, borderBottomWidth:1, borderBottomColor:'#E8E8E8', paddingBottom:10, fontWeight:'800', marginBottom:'3%', color: '#555555'}}>Choose your news category</Text>
             <View>
               {radio_props_categories.map(res => {
                 return(

@@ -29,9 +29,9 @@ const NewsDetailScreen = ({navigation, route}) => {
         </ImageBackground>
     
       <ScrollView style={{flex:1, margin:'3%'}}>
-        <Text style={{margin:'1%', fontWeight:"600"}}>{name} - Author {author}</Text>
-        <Text style={{margin:'1%',marginTop:.1 ,fontWeight:"600"}}>{publishedAt}</Text>
-        <Text style={{...FONTS.body2,textAlign:'justify', margin:'1%',marginTop:'2%', fontWeight:"600"}}>{content?.split("[+")[0]}</Text>
+        <Text style={{margin:'1%', fontWeight:"600", color:"#222222"}}>{name} - Author {author}</Text>
+        <Text style={{margin:'1%',marginTop:.1 ,fontWeight:"600", color:"#222222"}}>{publishedAt}</Text>
+        <Text style={{...FONTS.body2,textAlign:'justify', margin:'1%',marginTop:'2%', fontWeight:"600", color:"#444444"}}>{content?.split("[+")[0]}</Text>
 
         <TouchableOpacity style={{
             flexDirection: "row",
